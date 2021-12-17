@@ -93,13 +93,7 @@ int main(int argc, char** argv)
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
-    Tsb->R.x = 0.0;
-    Tsb->R.y = 0.0;
-    Tsb->R.z = 0.0;
-    Tsb->R.w = 1.0;
-    Tsb->t.x = 0.0;
-    Tsb->t.y = 0.0;
-    Tsb->t.z = 0.0;
+    Tsb->setIdentity();
     sim.setTsb(Tsb);
 
     size_t N = 10;
@@ -115,7 +109,7 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    std::cout << "Simulate Custom Model" << std::endl;
+    std::cout << "Simulate O1Dn Model" << std::endl;
 
     // simulate ranges and measure time
     StopWatch sw;

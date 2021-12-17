@@ -34,13 +34,7 @@ int main(int argc, char** argv)
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
-    Tsb->R.x = 0.0;
-    Tsb->R.y = 0.0;
-    Tsb->R.z = 0.0;
-    Tsb->R.w = 1.0;
-    Tsb->t.x = 0.0;
-    Tsb->t.y = 0.0;
-    Tsb->t.z = 0.0;
+    Tsb->setIdentity();
     sim_pinhole.setTsb(Tsb);
 
     // Define poses to simulate from
