@@ -17,9 +17,13 @@ target_link_libraries(example_cpu_pinhole
     ${imagine_LIBRARIES}
 )
 
-
 add_executable(example_cpu_o1dn src/example_cpu_o1dn.cpp)
 target_link_libraries(example_cpu_o1dn
+    ${imagine_LIBRARIES}
+)
+
+add_executable(example_cpu_ondn src/example_cpu_ondn.cpp)
+target_link_libraries(example_cpu_ondn
     ${imagine_LIBRARIES}
 )
 
@@ -27,7 +31,6 @@ add_executable(example_gpu_sphere src/example_gpu_sphere.cpp)
 target_link_libraries(example_gpu_sphere
     ${imagine_LIBRARIES}
 )
-
 
 add_executable(example_gpu_pinhole src/example_gpu_pinhole.cpp)
 target_link_libraries(example_gpu_pinhole

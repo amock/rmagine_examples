@@ -105,6 +105,34 @@ OnDnModel<RAM> example_ondn_model()
     OnDnModel<RAM> model;
 
 
+
+    model.height = 10;
+    model.width = 100;
+
+    model.range.min = 0.0;
+    model.range.max = 100.0;
+    
+    model.orig.resize(model.width * model.height);
+    model.rays.resize(model.width * model.height);
+
+    for(size_t vid=0; vid<model.getHeight(); vid++)
+    {
+        Vector orig = {0.0, 0.0, 0.0};
+        // v equally distributed between -1 and 1
+        float v = 2.0 * (static_cast<float>(vid) - static_cast<float>(model.getHeight() / 2) ) / static_cast<float>(model.getHeight());
+        orig.z = v;
+        for(size_t hid=0; hid<model.getWidth(); hid++)
+        {
+            // h from 0 to 2PI
+            float h = static_cast<float>(hid) / static_cast<float>(model.getWidth()) * 2.0 * M_PI;
+            Vector ray = {cos(h), sin(h), 0.0};
+            unsigned int loc_id = model.getBufferId(vid, hid);
+            model.orig[loc_id] = orig;
+            model.rays[loc_id] = ray;
+        }
+    }
+
+
     return model;
 }
 
