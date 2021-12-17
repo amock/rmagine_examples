@@ -7,62 +7,10 @@
 #include <imagine/simulation/SimulationResults.hpp>
 #include <imagine/types/Bundle.hpp>
 
+// Predefine models
+#include "imagine_examples/models.h"
+
 using namespace imagine;
-
-Memory<LiDARModel, RAM> velodyne_model()
-{
-    Memory<LiDARModel, RAM> model(1);
-    model->theta.min = -M_PI;
-    model->theta.max = M_PI; 
-    model->theta.size = 440;
-    model->theta.computeStep();
-    
-    model->phi.min = -0.261799;
-    model->phi.max = 0.261799;
-    model->phi.size = 16;
-    model->phi.computeStep();
-    
-    model->range.min = 0.5;
-    model->range.max = 130.0;
-    return model;
-}
-
-O1DnModel<RAM> custom_model()
-{
-    // represent spherical model as custom model to compare results
-    // build model out of two velo models
-    auto velo_model = velodyne_model();
-
-    O1DnModel<RAM> model;
-        
-    size_t W = velo_model->getWidth();
-    size_t H = velo_model->getHeight() * 2;
-
-    model.width = W;
-    model.height = H;
-    model.range = velo_model->range;
-
-    model.orig.x = 0.0;
-    model.orig.y = 0.0;
-    model.orig.z = 0.0;
-    model.rays.resize(W * H);
-
-    for(size_t vid=0; vid<velo_model->getHeight(); vid++)
-    {
-        for(size_t hid=0; hid<velo_model->getWidth(); hid++)
-        {
-            const Vector ray = velo_model->getRay(vid, hid);
-            unsigned int loc_id_1 = model.getBufferId(vid, hid);
-            model.rays[loc_id_1] = ray;
-
-            const Vector ray_flipped = {ray.x, ray.z, ray.y};
-            unsigned int loc_id_2 = model.getBufferId(vid + velo_model->getHeight(), hid);
-            model.rays[loc_id_2] = ray_flipped;
-        }
-    }
-
-    return model;
-}
 
 int main(int argc, char** argv)
 {
@@ -84,7 +32,7 @@ int main(int argc, char** argv)
 
     // Define sensor model
     
-    auto model = custom_model();
+    auto model = example_o1dn_model();
     sim.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
@@ -102,7 +50,7 @@ int main(int argc, char** argv)
         Tbm[i] = Tsb[0];
     }
 
-    std::cout << "Simulate Custom Model" << std::endl;
+    std::cout << "Simulate O1Dn Model" << std::endl;
 
     // simulate ranges and measure time
     StopWatch sw;
