@@ -70,7 +70,7 @@ O1DnModel<RAM> custom_model()
 
 int main(int argc, char** argv)
 {
-    std::cout << "Example GPU: Custom Models" << std::endl;
+    std::cout << "Example GPU: O1Dn Model Simulation" << std::endl;
 
     if(argc < 2)
     {
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
     Memory<float, RAM> ranges;
     ranges = ranges_;
 
-    std::ofstream out("example_gpu_custom_model.xyz", std::ios_base::binary);
+    std::ofstream out("points_gpu_o1dn.xyz", std::ios_base::binary);
 
     if(out.good())
     {

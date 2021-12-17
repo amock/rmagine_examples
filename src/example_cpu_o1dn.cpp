@@ -66,7 +66,7 @@ O1DnModel<RAM> custom_model()
 
 int main(int argc, char** argv)
 {
-    std::cout << "Example CPU: Custom Models" << std::endl;
+    std::cout << "Example CPU: O1Dn Model Simulation" << std::endl;
 
     if(argc < 2)
     {
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
     double el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 
-    std::ofstream out("example_cpu_custom_model.xyz", std::ios_base::binary);
+    std::ofstream out("points_cpu_o1dn.xyz", std::ios_base::binary);
 
     if(out.good())
     {
