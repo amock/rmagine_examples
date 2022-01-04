@@ -15,7 +15,7 @@ using namespace imagine;
 
 int main(int argc, char** argv)
 {
-    std::cout << "Example CPU" << std::endl;
+    std::cout << "Example CPU: Simulate spherical model." << std::endl;
 
     if(argc < 2)
     {

@@ -12,7 +12,7 @@ using namespace imagine;
 
 int main(int argc, char** argv)
 {
-    std::cout << "Example 1" << std::endl;
+    std::cout << "Example GPU: Simulate spherical model." << std::endl;
 
     if(argc < 2)
     {
