@@ -41,3 +41,8 @@ add_executable(example_gpu_o1dn src/example_gpu_o1dn.cpp)
 target_link_libraries(example_gpu_o1dn
     ${imagine_LIBRARIES}
 )
+
+add_executable(example_gpu_ondn src/example_gpu_ondn.cpp)
+target_link_libraries(example_gpu_ondn
+    ${imagine_LIBRARIES}
+)

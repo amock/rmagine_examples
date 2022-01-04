@@ -9,6 +9,7 @@
 
 // models
 #include "imagine_examples/models.h"
+#include "imagine_examples/helper.h"
 
 using namespace imagine;
 
@@ -31,8 +32,8 @@ int main(int argc, char** argv)
     PinholeSimulatorEmbree sim_pinhole(map);
 
     // Define sensor model
-    Memory<PinholeModel, RAM> pinhole_model = example_pinhole_model();
-    sim_pinhole.setModel(pinhole_model);
+    Memory<PinholeModel, RAM> model = example_pinhole_model();
+    sim_pinhole.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
@@ -55,35 +56,11 @@ int main(int argc, char** argv)
     std::cout << "Simulate Pinhole Model" << std::endl;
 
     sw();
-    Memory<float, RAM> pinhole_ranges = sim_pinhole.simulateRanges(Tbm);
+    Memory<float, RAM> ranges = sim_pinhole.simulateRanges(Tbm);
     el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 
-    std::ofstream out_pinhole("points_cpu_pinhole.xyz", std::ios_base::binary);
-
-    if(out_pinhole.good())
-    {
-        for(unsigned int vid=0; vid<pinhole_model->height; vid++)
-        {
-            for(unsigned int hid=0; hid<pinhole_model->width; hid++)
-            {
-                const unsigned int loc_id = pinhole_model->getBufferId(vid, hid);
-                Vector ray = pinhole_model->getRay(vid, hid);
-
-
-                // std::cout << "Ray: " << ray.x << " " << ray.y << " " << ray.z << std::endl;
-                float range = pinhole_ranges[loc_id];
-                if(range >= pinhole_model->range.min && range <= pinhole_model->range.max)
-                {
-                    Point p = ray * range;
-                    // std::cout << "Intersection: " << p.x << " " << p.y << " " << p.z << std::endl;
-                    out_pinhole << p.x << " " << p.y << " " << p.z << "\n";
-                }
-            }
-        }
-
-        out_pinhole.close();
-    }
+    saveRangesAsXYZ(ranges, *model, "points_cpu_pinhole");
 
     return 0;
 }

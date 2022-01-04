@@ -6,6 +6,7 @@
 
 // predefined models
 #include "imagine_examples/models.h"
+#include "imagine_examples/helper.h"
 
 using namespace imagine;
 
@@ -30,8 +31,8 @@ int main(int argc, char** argv)
     SphereSimulatorOptix sim_sphere(map);
 
     // Define sensor model
-    Memory<LiDARModel, RAM> model_sphere = example_spherical_model();
-    sim_sphere.setModel(model_sphere);
+    Memory<LiDARModel, RAM> model = example_spherical_model();
+    sim_sphere.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
@@ -61,27 +62,7 @@ int main(int argc, char** argv)
     Memory<float, RAM> ranges;
     ranges = ranges_;
 
-    std::ofstream out("points_gpu_sphere.xyz", std::ios_base::binary);
-
-    if(out.good())
-    {
-        for(unsigned int vid=0; vid<model_sphere->getHeight(); vid++)
-        {
-            for(unsigned int hid=0; hid<model_sphere->getWidth(); hid++)
-            {
-                const unsigned int loc_id = model_sphere->getBufferId(vid, hid);
-                Vector ray = model_sphere->getRay(vid, hid);
-                float range = ranges[loc_id];
-                if(range >= model_sphere->range.min && range <= model_sphere->range.max)
-                {
-                    Point p = ray * range;
-                    out << p.x << " " << p.y << " " << p.z << "\n";
-                }
-            }
-        }
-
-        out.close();
-    }
+    saveRangesAsXYZ(ranges, *model, "points_gpu_sphere");
     
     return 0;
 }

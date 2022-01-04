@@ -1,14 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include <imagine/simulation/O1DnSimulatorOptix.hpp>
+#include <imagine/simulation/OnDnSimulatorOptix.hpp>
 #include <imagine/util/StopWatch.hpp>
 
 // Generic Interface
 #include <imagine/simulation/SimulationResults.hpp>
 #include <imagine/types/Bundle.hpp>
-#include <imagine/util/prints.h>
 
-// Predefined models
+// Predefine models
 #include "imagine_examples/models.h"
 #include "imagine_examples/helper.h"
 
@@ -27,14 +26,14 @@ int main(int argc, char** argv)
     OptixMapPtr map = importOptixMap(argv[1]);
     std::cout << "Loaded file '" << argv[1] << "'" << std::endl; 
 
-    std::cout << "- Meshes: " << map->meshes.size() << std::endl;
+    // std::cout << "- Meshes: " << map->meshes.size() << std::endl;
 
     // Create Simulator in map
-    O1DnSimulatorOptix sim(map);
+    OnDnSimulatorOptix sim(map);
 
     // Define sensor model
     
-    auto model = example_o1dn_model();
+    auto model = example_ondn_model();
     sim.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
@@ -55,7 +54,7 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    std::cout << "Simulate O1Dn Model" << std::endl;
+    std::cout << "Simulate OnDn Model" << std::endl;
 
     // simulate ranges and measure time
     StopWatch sw;
@@ -67,7 +66,7 @@ int main(int argc, char** argv)
     Memory<float, RAM> ranges;
     ranges = ranges_;
 
-    saveRangesAsXYZ(ranges, model, "points_gpu_o1dn");
+    saveRangesAsXYZ(ranges, model, "points_gpu_ondn");
 
     return 0;
 }

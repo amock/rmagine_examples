@@ -9,6 +9,7 @@
 
 // models
 #include "imagine_examples/models.h"
+#include "imagine_examples/helper.h"
 
 using namespace imagine;
 
@@ -31,8 +32,8 @@ int main(int argc, char** argv)
     SphereSimulatorEmbree sim_sphere(map);
 
     // Define sensor model
-    Memory<LiDARModel, RAM> sphere_model = example_spherical_model();
-    sim_sphere.setModel(sphere_model);
+    Memory<SphericalModel, RAM> model = example_spherical_model();
+    sim_sphere.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
@@ -58,30 +59,7 @@ int main(int argc, char** argv)
     double el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 
-    std::ofstream out("points_cpu_sphere.xyz", std::ios_base::binary);
-
-    if(out.good())
-    {
-        for(unsigned int vid=0; vid<sphere_model->phi.size; vid++)
-        {
-            for(unsigned int hid=0; hid<sphere_model->theta.size; hid++)
-            {
-                const unsigned int loc_id = sphere_model->getBufferId(vid, hid);
-                Vector ray = sphere_model->getRay(vid, hid);
-                
-                // std::cout << "Ray: " << ray.x << " " << ray.y << " " << ray.z << std::endl;
-                float range = ranges[loc_id];
-                if(range >= sphere_model->range.min && range <= sphere_model->range.max)
-                {
-                    Point p = ray * range;
-                    // std::cout << "Intersection: " << p.x << " " << p.y << " " << p.z << std::endl;
-                    out << p.x << " " << p.y << " " << p.z << "\n";
-                }
-            }
-        }
-
-        out.close();
-    }
+    saveRangesAsXYZ(ranges, *model, "points_cpu_sphere");
 
     return 0;
 }

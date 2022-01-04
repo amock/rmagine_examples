@@ -5,6 +5,7 @@
 #include <imagine/math/math.h>
 
 #include "imagine_examples/models.h"
+#include "imagine_examples/helper.h"
 
 using namespace imagine;
 
@@ -29,8 +30,8 @@ int main(int argc, char** argv)
     PinholeSimulatorOptix sim_pinhole(map);
 
     // Define sensor model
-    Memory<PinholeModel, RAM> model_pinhole = example_pinhole_model();
-    sim_pinhole.setModel(model_pinhole);
+    Memory<PinholeModel, RAM> model = example_pinhole_model();
+    sim_pinhole.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
     Memory<Transform, RAM> Tsb(1);
@@ -67,28 +68,7 @@ int main(int argc, char** argv)
     ranges = ranges_;
     std::cout << "Simulated " << N << " pinholes in " << el << "s" << std::endl;
 
-    std::ofstream out_pinhole("points_gpu_pinhole.xyz", std::ios_base::binary);
-
-    if(out_pinhole.good())
-    {
-        for(unsigned int vid=0; vid<model_pinhole->getHeight(); vid++)
-        {
-            for(unsigned int hid=0; hid<model_pinhole->getWidth(); hid++)
-            {
-                const unsigned int loc_id = model_pinhole->getBufferId(vid, hid);
-                Vector ray = model_pinhole->getRay(vid, hid);
-                float range = ranges[loc_id];
-                if(range >= model_pinhole->range.min && range <= model_pinhole->range.max)
-                {
-                    Point p = ray * range;
-                    out_pinhole << p.x << " " << p.y << " " << p.z << "\n";
-                }
-            }
-        }
-
-        out_pinhole.close();
-    }
-    
+    saveRangesAsXYZ(ranges, *model, "points_gpu_pinhole");
 
     return 0;
 }
