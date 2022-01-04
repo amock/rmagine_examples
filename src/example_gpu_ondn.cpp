@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 
     // Define sensor model
     
-    auto model = example_ondn_model();
+    OnDnModel<RAM> model = example_ondn_model();
     sim.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
@@ -56,10 +56,12 @@ int main(int argc, char** argv)
 
     std::cout << "Simulate OnDn Model" << std::endl;
 
+    Memory<float, VRAM_CUDA> ranges_;
+
     // simulate ranges and measure time
     StopWatch sw;
     sw();
-    Memory<float, VRAM_CUDA> ranges_ = sim.simulateRanges(Tbm_);
+    ranges_ = sim.simulateRanges(Tbm_);
     double el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 

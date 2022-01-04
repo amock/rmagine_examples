@@ -57,10 +57,12 @@ int main(int argc, char** argv)
 
     std::cout << "Simulate O1Dn Model" << std::endl;
 
+    Memory<float, VRAM_CUDA> ranges_;
+
     // simulate ranges and measure time
     StopWatch sw;
     sw();
-    Memory<float, VRAM_CUDA> ranges_ = sim.simulateRanges(Tbm_);
+    ranges_ = sim.simulateRanges(Tbm_);
     double el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 

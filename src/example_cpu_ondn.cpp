@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     Tsb->setIdentity();
     sim.setTsb(Tsb);
 
-    size_t N = 10;
+    size_t N = 1;
 
     // Define poses to simulate from
     Memory<Transform, RAM> Tbm(N);
@@ -58,7 +58,9 @@ int main(int argc, char** argv)
     sw();
     Memory<float, RAM> ranges = sim.simulateRanges(Tbm);
     double el = sw();
-    std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
+    std::cout << "Simulated " << N << " sensors / " << model.size() << " Rays in " << el << "s" << std::endl;
+
+
 
     saveRangesAsXYZ(ranges, model, "points_cpu_ondn");
 

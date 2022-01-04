@@ -104,8 +104,6 @@ OnDnModel<RAM> example_ondn_model()
 {
     OnDnModel<RAM> model;
 
-
-
     model.height = 10;
     model.width = 100;
 
@@ -118,8 +116,8 @@ OnDnModel<RAM> example_ondn_model()
     for(size_t vid=0; vid<model.getHeight(); vid++)
     {
         Vector orig = {0.0, 0.0, 0.0};
-        // v equally distributed between -1 and 1
-        float v = 2.0 * (static_cast<float>(vid) - static_cast<float>(model.getHeight() / 2) ) / static_cast<float>(model.getHeight());
+        // v equally distributed between -0.5 and 0.5
+        float v = (static_cast<float>(vid) - static_cast<float>(model.getHeight() / 2) ) / static_cast<float>(model.getHeight());
         orig.z = v;
         for(size_t hid=0; hid<model.getWidth(); hid++)
         {
