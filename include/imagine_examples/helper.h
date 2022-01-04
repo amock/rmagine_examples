@@ -40,6 +40,7 @@ void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std:
         out.close();
     }
 
+    std::cout << "Output written to '" << ss.str() << "'" << std::endl; 
 
 }
 

@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     if(argc < 2)
     {
         std::cout << "Usage: " << argv[0] << " [meshfile] " << std::endl;
+        return 0;
     }
 
     // Load Map
@@ -53,12 +54,15 @@ int main(int argc, char** argv)
     StopWatch sw;
     double el;
 
-    std::cout << "Simulate Pinhole Model" << std::endl;
-
     sw();
     Memory<float, RAM> ranges = sim_pinhole.simulateRanges(Tbm);
     el = sw();
-    std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
+    
+    std::cout << "Simulation Statistics: " << std::endl;
+    std::cout << "- Sensors: " << N << std::endl;
+    std::cout << "- Rays per sensor: " << model->size() << std::endl;
+    std::cout << "- Total rays: " << ranges.size() << std::endl;
+    std::cout << "- Runtime: " << el << "s" << std::endl;
 
     saveRangesAsXYZ(ranges, *model, "points_cpu_pinhole");
 

@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     if(argc < 2)
     {
         std::cout << "Usage: " << argv[0] << " [meshfile] " << std::endl;
+        return 0;
     }
 
     // Load Map
@@ -56,11 +57,18 @@ int main(int argc, char** argv)
     sw();
     Memory<float, VRAM_CUDA> ranges_ = sim_sphere.simulateRanges(Tbm);
     double el = sw();
-    std::cout << "Simulated " << N << " spheres in " << el << "s" << std::endl;
-
+   
     // Download
     Memory<float, RAM> ranges;
     ranges = ranges_;
+
+    
+    std::cout << "Simulation Statistics: " << std::endl;
+    std::cout << "- Sensors: " << N << std::endl;
+    std::cout << "- Rays per sensor: " << model->size() << std::endl;
+    std::cout << "- Total rays: " << ranges.size() << std::endl;
+    std::cout << "- Runtime: " << el << "s" << std::endl;
+
 
     saveRangesAsXYZ(ranges, *model, "points_gpu_sphere");
     

@@ -21,6 +21,7 @@ int main(int argc, char** argv)
     if(argc < 2)
     {
         std::cout << "Usage: " << argv[0] << " [meshfile] " << std::endl;
+        return 0;
     }
 
     // Load Map
@@ -55,19 +56,22 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    std::cout << "Simulate O1Dn Model" << std::endl;
-
     Memory<float, VRAM_CUDA> ranges_;
+    Memory<float, RAM> ranges;
 
     // simulate ranges and measure time
     StopWatch sw;
     sw();
     ranges_ = sim.simulateRanges(Tbm_);
     double el = sw();
-    std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
-
-    Memory<float, RAM> ranges;
     ranges = ranges_;
+
+
+    std::cout << "Simulation Statistics: " << std::endl;
+    std::cout << "- Sensors: " << N << std::endl;
+    std::cout << "- Rays per sensor: " << model.size() << std::endl;
+    std::cout << "- Total rays: " << ranges.size() << std::endl;
+    std::cout << "- Runtime: " << el << "s" << std::endl;
 
     saveRangesAsXYZ(ranges, model, "points_gpu_o1dn");
 
