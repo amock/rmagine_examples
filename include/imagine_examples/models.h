@@ -75,7 +75,7 @@ O1DnModel<RAM> example_o1dn_model()
 
     model.orig.x = 0.0;
     model.orig.y = 0.0;
-    model.orig.z = 0.0;
+    model.orig.z = 0.5;
     model.rays.resize(W * H);
 
     for(size_t vid=0; vid<velo_model->getHeight(); vid++)
@@ -129,7 +129,6 @@ OnDnModel<RAM> example_ondn_model()
             model.rays[loc_id] = ray;
         }
     }
-
 
     return model;
 }

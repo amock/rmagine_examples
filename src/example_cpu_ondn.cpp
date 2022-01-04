@@ -60,8 +60,6 @@ int main(int argc, char** argv)
     double el = sw();
     std::cout << "Simulated " << N << " sensors / " << model.size() << " Rays in " << el << "s" << std::endl;
 
-
-
     saveRangesAsXYZ(ranges, model, "points_cpu_ondn");
 
     return 0;

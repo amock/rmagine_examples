@@ -9,6 +9,7 @@
 
 // Predefine models
 #include "imagine_examples/models.h"
+#include "imagine_examples/helper.h"
 
 using namespace imagine;
 
@@ -59,31 +60,7 @@ int main(int argc, char** argv)
     double el = sw();
     std::cout << "Simulated " << N << " sensors in " << el << "s" << std::endl;
 
-    std::ofstream out("points_cpu_o1dn.xyz", std::ios_base::binary);
-
-    if(out.good())
-    {
-        for(unsigned int vid=0; vid<model.getHeight(); vid++)
-        {
-            for(unsigned int hid=0; hid<model.getWidth(); hid++)
-            {
-                const unsigned int loc_id = model.getBufferId(vid, hid);
-                Vector orig = model.getOrigin(vid, hid);
-                Vector ray = model.getRay(vid, hid);
-                
-                // std::cout << "Ray: " << ray.x << " " << ray.y << " " << ray.z << std::endl;
-                float range = ranges[loc_id];
-                if(range >= model.range.min && range <= model.range.max)
-                {
-                    Point p = orig + ray * range;
-                    // std::cout << "Intersection: " << p.x << " " << p.y << " " << p.z << std::endl;
-                    out << p.x << " " << p.y << " " << p.z << "\n";
-                }
-            }
-        }
-
-        out.close();
-    }
-
+    saveRangesAsXYZ(ranges, model, "points_cpu_o1dn");
+    
     return 0;
 }
