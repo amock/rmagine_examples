@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <imagine/simulation/SphereSimulatorOptix.hpp>
+// #include <imagine/simulation/SphereSimulatorOptix.hpp>
+// #include <imagine/util/StopWatch.hpp>
+// #include <imagine/math/math.h>
+
+#include <imagine/simulation.h>
 #include <imagine/util/StopWatch.hpp>
-#include <imagine/math/math.h>
 
 // predefined models
 #include "imagine_examples/models.h"
