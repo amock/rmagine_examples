@@ -27,6 +27,12 @@ target_link_libraries(example_cpu_ondn
     ${imagine_LIBRARIES}
 )
 
+add_executable(example_cpu_change_map src/example_cpu_change_map.cpp)
+target_link_libraries(example_cpu_change_map
+    ${imagine_LIBRARIES}
+)
+
+
 add_executable(example_gpu_sphere src/example_gpu_sphere.cpp)
 target_link_libraries(example_gpu_sphere
     ${imagine_LIBRARIES}
