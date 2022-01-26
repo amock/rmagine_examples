@@ -13,6 +13,12 @@ int main(int argc, char** argv)
 {
     std::cout << "Imagine Examples: CPU change map" << std::endl;
 
+    auto sphere = genSphere(50, 50);
+    EmbreeMapPtr map1(new EmbreeMap(&sphere) );
+
+    auto cube = genCube();
+    EmbreeMapPtr map2(new EmbreeMap(&cube));
+
     Transform Tsb;
     Tsb.setIdentity();
 
@@ -21,13 +27,6 @@ int main(int argc, char** argv)
     sim.setTsb(Tsb);
     auto model = example_spherical_model();
     sim.setModel(model);
-
-    auto sphere = genSphere(50, 50);
-    EmbreeMapPtr map1(new EmbreeMap(&sphere) );
-
-    // TODO: cube
-    auto cube = genCube();
-    EmbreeMapPtr map2(new EmbreeMap(&cube));
 
     Memory<Transform, RAM> Tbm(1);
     Tbm[0].setIdentity();
@@ -41,15 +40,8 @@ int main(int argc, char** argv)
     sim.setMap(map2);
 
     auto ranges_cube = sim.simulateRanges(Tbm);
-
     saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
 
-    
 
-    // sim.setMap(&map);
-
-    
-
-
-
+    return 0;
 }
