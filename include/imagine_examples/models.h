@@ -13,7 +13,6 @@ namespace imagine
  */
 Memory<SphericalModel, RAM> example_spherical_model()
 {
-    
     Memory<SphericalModel, RAM> model(1);
     model->theta.min = -M_PI;
     model->theta.max = M_PI; 
@@ -27,7 +26,7 @@ Memory<SphericalModel, RAM> example_spherical_model()
     model->phi.computeStep();
     // automate this somehow?
     
-    model->range.min = 0.5;
+    model->range.min = 0.0;
     model->range.max = 130.0;
     return model;
 }

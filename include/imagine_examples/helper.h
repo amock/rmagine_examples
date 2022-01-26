@@ -12,6 +12,12 @@ void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std:
 {
     std::stringstream ss;
 
+    if(ranges.size() == 0)
+    {
+        std::cout << "saveRangesAsXYZ - emptyBuffers" << std::endl;
+        return;
+    }
+
     ss << name << ".xyz";
 
     std::ofstream out(ss.str(), std::ios_base::binary);

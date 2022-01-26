@@ -13,10 +13,6 @@ int main(int argc, char** argv)
 {
     std::cout << "Imagine Examples: CPU change map" << std::endl;
 
-
-
-
-
     Transform Tsb;
     Tsb.setIdentity();
 
@@ -26,14 +22,12 @@ int main(int argc, char** argv)
     auto model = example_spherical_model();
     sim.setModel(model);
 
-
     auto sphere = genSphere(50, 50);
     EmbreeMapPtr map1(new EmbreeMap(&sphere) );
 
     // TODO: cube
-    auto cube = genSphere(10, 10);
+    auto cube = genCube();
     EmbreeMapPtr map2(new EmbreeMap(&cube));
-
 
     Memory<Transform, RAM> Tbm(1);
     Tbm[0].setIdentity();
