@@ -55,15 +55,15 @@ Memory<PinholeModel, RAM> example_pinhole_model()
 /**
  * @brief Example O1Dn Model. One origin n Directions
  * 
- * @return O1DnModel<RAM> 
+ * @return O1DnModel 
  */
-O1DnModel<RAM> example_o1dn_model()
+O1DnModel example_o1dn_model()
 {
     // represent spherical model as custom model to compare results
     // build model out of two velo models
     auto velo_model = example_spherical_model();
 
-    O1DnModel<RAM> model;
+    O1DnModel model;
         
     size_t W = velo_model->getWidth();
     size_t H = velo_model->getHeight() * 2;
@@ -97,11 +97,11 @@ O1DnModel<RAM> example_o1dn_model()
 /**
  * @brief Example OnDn Model. n origins n directions
  * 
- * @return O1DnModel<RAM> 
+ * @return O1DnModel 
  */
-OnDnModel<RAM> example_ondn_model()
+OnDnModel example_ondn_model()
 {
-    OnDnModel<RAM> model;
+    OnDnModel model;
 
     model.height = 10;
     model.width = 100;

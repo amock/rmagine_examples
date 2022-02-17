@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 
     // Define sensor model
     
-    OnDnModel<RAM> model = example_ondn_model();
+    OnDnModel model = example_ondn_model();
     sim.setModel(model);
 
     // Define Sensor to base transform (offset between simulated pose and scanner)
