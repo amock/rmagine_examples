@@ -7,6 +7,8 @@
 #include <imagine/simulation.h>
 #include <imagine/util/StopWatch.hpp>
 
+#include <imagine/noise/noise.cuh>
+
 // predefined models
 #include "imagine_examples/models.h"
 #include "imagine_examples/helper.h"
@@ -60,18 +62,22 @@ int main(int argc, char** argv)
     sw();
     Memory<float, VRAM_CUDA> ranges_ = sim_sphere.simulateRanges(Tbm);
     double el = sw();
-   
+
+    sw();
+    GaussianNoise(0.0, 0.01).apply(ranges_);
+    cudaDeviceSynchronize();
+    double el2 = sw();
+
     // Download
     Memory<float, RAM> ranges;
     ranges = ranges_;
-
     
     std::cout << "Simulation Statistics: " << std::endl;
     std::cout << "- Sensors: " << N << std::endl;
     std::cout << "- Rays per sensor: " << model->size() << std::endl;
     std::cout << "- Total rays: " << ranges.size() << std::endl;
     std::cout << "- Runtime: " << el << "s" << std::endl;
-
+    std::cout << "- Runtime Noise: " << el2 << "s" << std::endl;
 
     saveRangesAsXYZ(ranges, *model, "points_gpu_sphere");
     

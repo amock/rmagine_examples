@@ -7,6 +7,8 @@
 #include <imagine/simulation/SimulationResults.hpp>
 #include <imagine/types/Bundle.hpp>
 
+#include <imagine/noise/noise.h>
+
 // models
 #include "imagine_examples/models.h"
 #include "imagine_examples/helper.h"
@@ -62,6 +64,12 @@ int main(int argc, char** argv)
     std::cout << "- Rays per sensor: " << model->size() << std::endl;
     std::cout << "- Total rays: " << ranges.size() << std::endl;
     std::cout << "- Runtime: " << el << "s" << std::endl;
+
+    // apply noise
+    sw();
+    GaussianNoise(0.0, 0.01).apply(ranges);
+    el = sw();
+    std::cout << "- Runtime Noise: " << el << "s" << std::endl;
 
     saveRangesAsXYZ(ranges, *model, "points_cpu_sphere");
 
