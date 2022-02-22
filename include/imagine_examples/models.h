@@ -13,18 +13,16 @@ namespace imagine
  */
 Memory<SphericalModel, RAM> example_spherical_model()
 {
-    Memory<SphericalModel, RAM> model(1);
+    Memory<LiDARModel, RAM> model(1);
     model->theta.min = -M_PI;
-    model->theta.max = M_PI; 
-    model->theta.size = 440;
-    model->theta.computeStep();
-    // model->theta.step = (model->theta.max - model->theta.min) / ( static_cast<float>(model->theta.size - 1) );
-    
-    model->phi.min = -0.261799;
-    model->phi.max = 0.261799;
+    model->theta.step = 0.4 * M_PI / 180.0;
+    model->theta.size = 900;
+    model->theta.fillMax();
+
+    model->phi.min = -15.0 * M_PI / 180.0;
+    model->phi.max = 15.0 * M_PI / 180.0;
     model->phi.size = 16;
-    model->phi.computeStep();
-    // automate this somehow?
+    model->phi.fillStep();
     
     model->range.min = 0.0;
     model->range.max = 130.0;
