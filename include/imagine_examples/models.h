@@ -17,12 +17,10 @@ Memory<SphericalModel, RAM> example_spherical_model()
     model->theta.min = -M_PI;
     model->theta.inc = 0.4 * M_PI / 180.0;
     model->theta.size = 900;
-    model->theta.fillMax();
 
     model->phi.min = -15.0 * M_PI / 180.0;
-    model->phi.max = 15.0 * M_PI / 180.0;
+    model->phi.inc = 2.0 * M_PI / 180.0;
     model->phi.size = 16;
-    model->phi.fillInc();
     
     model->range.min = 0.0;
     model->range.max = 130.0;
