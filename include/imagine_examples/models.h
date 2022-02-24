@@ -71,19 +71,19 @@ O1DnModel example_o1dn_model()
     model.orig.x = 0.0;
     model.orig.y = 0.0;
     model.orig.z = 0.5;
-    model.rays.resize(W * H);
+    model.dirs.resize(W * H);
 
     for(size_t vid=0; vid<velo_model->getHeight(); vid++)
     {
         for(size_t hid=0; hid<velo_model->getWidth(); hid++)
         {
-            const Vector ray = velo_model->getRay(vid, hid);
+            const Vector ray = velo_model->getDirection(vid, hid);
             unsigned int loc_id_1 = model.getBufferId(vid, hid);
-            model.rays[loc_id_1] = ray;
+            model.dirs[loc_id_1] = ray;
 
             const Vector ray_flipped = {ray.x, ray.z, ray.y};
             unsigned int loc_id_2 = model.getBufferId(vid + velo_model->getHeight(), hid);
-            model.rays[loc_id_2] = ray_flipped;
+            model.dirs[loc_id_2] = ray_flipped;
         }
     }
 
@@ -105,8 +105,8 @@ OnDnModel example_ondn_model()
     model.range.min = 0.0;
     model.range.max = 100.0;
     
-    model.orig.resize(model.width * model.height);
-    model.rays.resize(model.width * model.height);
+    model.origs.resize(model.width * model.height);
+    model.dirs.resize(model.width * model.height);
 
     for(size_t vid=0; vid<model.getHeight(); vid++)
     {
@@ -120,8 +120,8 @@ OnDnModel example_ondn_model()
             float h = static_cast<float>(hid) / static_cast<float>(model.getWidth()) * 2.0 * M_PI;
             Vector ray = {cos(h), sin(h), 0.0};
             unsigned int loc_id = model.getBufferId(vid, hid);
-            model.orig[loc_id] = orig;
-            model.rays[loc_id] = ray;
+            model.origs[loc_id] = orig;
+            model.dirs[loc_id] = ray;
         }
     }
 

@@ -30,13 +30,13 @@ void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std:
             {
                 const unsigned int loc_id = model.getBufferId(vid, hid);
                 Vector orig = model.getOrigin(vid, hid);
-                Vector ray = model.getRay(vid, hid);
+                Vector dir = model.getDirection(vid, hid);
                 
                 // std::cout << "Ray: " << ray.x << " " << ray.y << " " << ray.z << std::endl;
                 float range = ranges[loc_id];
                 if(range >= model.range.min && range <= model.range.max)
                 {
-                    Point p = orig + ray * range;
+                    Point p = orig + dir * range;
                     // std::cout << "Intersection: " << p.x << " " << p.y << " " << p.z << std::endl;
                     out << p.x << " " << p.y << " " << p.z << "\n";
                 }
