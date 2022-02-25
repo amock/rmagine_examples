@@ -1,11 +1,11 @@
 #ifndef IMAGINE_EXAMPLES_HELPER_H
 #define IMAGINE_EXAMPLES_HELPER_H
 
-#include <imagine/types/Memory.hpp>
+#include <rmagine/types/Memory.hpp>
 #include <fstream>
 #include <sstream>
 
-namespace imagine {
+namespace rmagine {
 
 template<typename ModelT>
 void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std::string name)
@@ -50,6 +50,6 @@ void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std:
 
 }
 
-} // namespace imagine
+} // namespace rmagine
 
 #endif // IMAGINE_EXAMPLES_HELPER_H

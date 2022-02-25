@@ -1,17 +1,17 @@
 #include <iostream>
 
-#include <imagine/util/synthetic.h>
+#include <rmagine/util/synthetic.h>
 
-#include <imagine/simulation/SphereSimulatorOptix.hpp>
+#include <rmagine/simulation/SphereSimulatorOptix.hpp>
 
-#include "imagine_examples/models.h"
-#include "imagine_examples/helper.h"
+#include "rmagine_examples/models.h"
+#include "rmagine_examples/helper.h"
 
-using namespace imagine;
+using namespace rmagine;
 
 int main(int argc, char** argv)
 {
-    std::cout << "Imagine Examples: CPU change map" << std::endl;
+    std::cout << "Rmagine Examples: CPU change map" << std::endl;
 
     Transform Tsb;
     Tsb.setIdentity();

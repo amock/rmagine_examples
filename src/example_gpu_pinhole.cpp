@@ -1,13 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include <imagine/simulation/PinholeSimulatorOptix.hpp>
-#include <imagine/util/StopWatch.hpp>
-#include <imagine/math/math.h>
+#include <rmagine/simulation/PinholeSimulatorOptix.hpp>
+#include <rmagine/util/StopWatch.hpp>
+#include <rmagine/math/math.h>
 
-#include "imagine_examples/models.h"
-#include "imagine_examples/helper.h"
+#include "rmagine_examples/models.h"
+#include "rmagine_examples/helper.h"
 
-using namespace imagine;
+using namespace rmagine;
 
 int main(int argc, char** argv)
 {

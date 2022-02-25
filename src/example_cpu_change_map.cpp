@@ -1,17 +1,17 @@
 #include <iostream>
 
-#include <imagine/util/synthetic.h>
+#include <rmagine/util/synthetic.h>
 
-#include <imagine/simulation/SphereSimulatorEmbree.hpp>
+#include <rmagine/simulation/SphereSimulatorEmbree.hpp>
 
-#include "imagine_examples/models.h"
-#include "imagine_examples/helper.h"
+#include "rmagine_examples/models.h"
+#include "rmagine_examples/helper.h"
 
-using namespace imagine;
+using namespace rmagine;
 
 int main(int argc, char** argv)
 {
-    std::cout << "Imagine Examples: CPU change map" << std::endl;
+    std::cout << "Rmagine Examples: CPU change map" << std::endl;
 
     auto sphere = genSphere(50, 50);
     EmbreeMapPtr map1(new EmbreeMap(&sphere) );

@@ -1,9 +1,9 @@
 #ifndef IMAGINE_EXAMPLES_MODELS_H
 #define IMAGINE_EXAMPLES_MODELS_H
 
-#include <imagine/types/sensor_models.h>
+#include <rmagine/types/sensor_models.h>
 
-namespace imagine 
+namespace rmagine 
 {
 
 /**
@@ -129,7 +129,7 @@ OnDnModel example_ondn_model()
 }
 
 
-} // namespace imagine
+} // namespace rmagine
 
 
 #endif // IMAGINE_EXAMPLES_MODELS_H

@@ -1,17 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include <imagine/simulation/OnDnSimulatorEmbree.hpp>
-#include <imagine/util/StopWatch.hpp>
+#include <rmagine/simulation/OnDnSimulatorEmbree.hpp>
+#include <rmagine/util/StopWatch.hpp>
 
 // Generic Interface
-#include <imagine/simulation/SimulationResults.hpp>
-#include <imagine/types/Bundle.hpp>
+#include <rmagine/simulation/SimulationResults.hpp>
+#include <rmagine/types/Bundle.hpp>
 
 // Predefine models
-#include "imagine_examples/models.h"
-#include "imagine_examples/helper.h"
+#include "rmagine_examples/models.h"
+#include "rmagine_examples/helper.h"
 
-using namespace imagine;
+using namespace rmagine;
 
 int main(int argc, char** argv)
 {
