@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <rmagine/simulation/OnDnSimulatorOptix.hpp>
+#include <rmagine/simulation/SimulatorOptix.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
 // Generic Interface
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     // std::cout << "- Meshes: " << map->meshes.size() << std::endl;
 
     // Create Simulator in map
-    OnDnSimulatorOptix sim(map);
+    Simulator<OnDnModel, Optix> sim(map);
 
     // Define sensor model
     

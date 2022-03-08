@@ -4,6 +4,8 @@
 
 #include <rmagine/simulation/SphereSimulatorEmbree.hpp>
 
+#include <rmagine/simulation/SimulatorEmbree.hpp>
+
 #include "rmagine_examples/models.h"
 #include "rmagine_examples/helper.h"
 
@@ -13,6 +15,8 @@ int main(int argc, char** argv)
 {
     std::cout << "Rmagine Examples: CPU change map" << std::endl;
 
+    Simulator<SphericalModel, Embree> sim;
+
     auto sphere = genSphere(50, 50);
     EmbreeMapPtr map1(new EmbreeMap(&sphere) );
 
@@ -21,8 +25,6 @@ int main(int argc, char** argv)
 
     Transform Tsb;
     Tsb.setIdentity();
-
-    SphereSimulatorEmbree sim;
 
     sim.setTsb(Tsb);
     auto model = example_spherical_model();
@@ -41,7 +43,6 @@ int main(int argc, char** argv)
 
     auto ranges_cube = sim.simulateRanges(Tbm);
     saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
-
 
     return 0;
 }

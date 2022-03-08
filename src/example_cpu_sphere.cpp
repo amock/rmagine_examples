@@ -3,6 +3,8 @@
 #include <rmagine/simulation/SphereSimulatorEmbree.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
+#include <rmagine/simulation/SimulatorEmbree.hpp>
+
 // Generic Interface
 #include <rmagine/simulation/SimulationResults.hpp>
 #include <rmagine/types/Bundle.hpp>
@@ -32,7 +34,9 @@ int main(int argc, char** argv)
     std::cout << "- Meshes: " << map->meshes.size() << std::endl;
 
     // Create Simulator in map
-    SphereSimulatorEmbree sim_sphere(map);
+
+    Simulator<SphericalModel, Embree> sim_sphere(map);
+    // SphereSimulatorEmbree sim_sphere(map);
 
     // Define sensor model
     Memory<SphericalModel, RAM> model = example_spherical_model();

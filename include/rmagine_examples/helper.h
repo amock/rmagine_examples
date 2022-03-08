@@ -1,5 +1,5 @@
-#ifndef IMAGINE_EXAMPLES_HELPER_H
-#define IMAGINE_EXAMPLES_HELPER_H
+#ifndef RMAGINE_EXAMPLES_HELPER_H
+#define RMAGINE_EXAMPLES_HELPER_H
 
 #include <rmagine/types/Memory.hpp>
 #include <fstream>
@@ -52,4 +52,4 @@ void saveRangesAsXYZ(const Memory<float, RAM>& ranges, const ModelT& model, std:
 
 } // namespace rmagine
 
-#endif // IMAGINE_EXAMPLES_HELPER_H
+#endif // RMAGINE_EXAMPLES_HELPER_H

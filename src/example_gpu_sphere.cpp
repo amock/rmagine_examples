@@ -1,10 +1,7 @@
 #include <iostream>
 #include <fstream>
-// #include <rmagine/simulation/SphereSimulatorOptix.hpp>
-// #include <rmagine/util/StopWatch.hpp>
-// #include <rmagine/math/math.h>
 
-#include <rmagine/simulation.h>
+#include <rmagine/simulation/SimulatorOptix.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
 #include <rmagine/noise/noise.cuh>
@@ -34,7 +31,7 @@ int main(int argc, char** argv)
     size_t N = 10;
 
     // Create Simulator in map
-    SphereSimulatorOptix sim_sphere(map);
+    Simulator<SphericalModel, Optix> sim_sphere(map);
 
     // Define sensor model
     Memory<LiDARModel, RAM> model = example_spherical_model();

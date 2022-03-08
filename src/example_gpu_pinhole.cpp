@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <rmagine/simulation/PinholeSimulatorOptix.hpp>
+#include <rmagine/simulation/SimulatorOptix.hpp>
 #include <rmagine/util/StopWatch.hpp>
 #include <rmagine/math/math.h>
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     size_t N = 10;
 
     // Create Simulator in map
-    PinholeSimulatorOptix sim_pinhole(map);
+    Simulator<PinholeModel, Optix> sim_pinhole(map);
 
     // Define sensor model
     Memory<PinholeModel, RAM> model = example_pinhole_model();

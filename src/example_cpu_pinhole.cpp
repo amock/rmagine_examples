@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <rmagine/simulation/PinholeSimulatorEmbree.hpp>
+#include <rmagine/simulation/SimulatorEmbree.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
 // Generic Interface
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     std::cout << "- Meshes: " << map->meshes.size() << std::endl;
 
     // Create Simulator in map
-    PinholeSimulatorEmbree sim_pinhole(map);
+    Simulator<PinholeModel, Embree> sim_pinhole(map);
 
     // Define sensor model
     Memory<PinholeModel, RAM> model = example_pinhole_model();

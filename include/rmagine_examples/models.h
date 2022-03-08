@@ -1,5 +1,5 @@
-#ifndef IMAGINE_EXAMPLES_MODELS_H
-#define IMAGINE_EXAMPLES_MODELS_H
+#ifndef RMAGINE_EXAMPLES_MODELS_H
+#define RMAGINE_EXAMPLES_MODELS_H
 
 #include <rmagine/types/sensor_models.h>
 
@@ -132,4 +132,4 @@ OnDnModel example_ondn_model()
 } // namespace rmagine
 
 
-#endif // IMAGINE_EXAMPLES_MODELS_H
+#endif // RMAGINE_EXAMPLES_MODELS_H

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include <rmagine/simulation/OnDnSimulatorEmbree.hpp>
+
+#include <rmagine/simulation/SimulatorEmbree.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
 // Generic Interface
@@ -30,7 +31,7 @@ int main(int argc, char** argv)
     std::cout << "- Meshes: " << map->meshes.size() << std::endl;
 
     // Create Simulator in map
-    OnDnSimulatorEmbree sim(map);
+    Simulator<OnDnModel, Embree> sim(map);
 
     // Define sensor model
     
