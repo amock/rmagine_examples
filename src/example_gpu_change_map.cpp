@@ -70,15 +70,20 @@ int main(int argc, char** argv)
     rm::Memory<rm::Transform, rm::VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    rm::Memory<float, rm::RAM> ranges_sphere;
+    using IntAttr = Bundle<
+        Ranges<VRAM_CUDA> 
+    >;
+
+    rm::Memory<float, rm::RAM> ranges;
+
     
     sim.setMap(map1);
-    ranges_sphere = sim.simulateRanges(Tbm);
-    saveRangesAsXYZ(ranges_sphere, *model, "points_cm_sphere");
+    ranges = sim.simulate<IntAttr>(Tbm).ranges;
+    saveRangesAsXYZ(ranges, *model, "points_cm_sphere");
 
     sim.setMap(map2);
-    auto ranges_cube = sim.simulateRanges(Tbm);
-    saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
+    ranges = sim.simulate<IntAttr>(Tbm).ranges;
+    saveRangesAsXYZ(ranges, *model, "points_cm_cube");
 
     return 0;
 }

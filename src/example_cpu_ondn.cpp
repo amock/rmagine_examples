@@ -51,20 +51,25 @@ int main(int argc, char** argv)
         Tbm[i] = Tsb[0];
     }
 
+    // define intersection attributes
+    using IntAttr = Bundle<
+        Ranges<RAM> 
+    >;
+
     // simulate ranges and measure time
     StopWatch sw;
     sw();
-    Memory<float, RAM> ranges = sim.simulateRanges(Tbm);
+    IntAttr res = sim.simulate<IntAttr>(Tbm);
     double el = sw();
 
     std::cout << "Simulation Statistics: " << std::endl;
     std::cout << "- Sensors: " << N << std::endl;
     std::cout << "- Rays per sensor: " << model.size() << std::endl;
-    std::cout << "- Total rays: " << ranges.size() << std::endl;
+    std::cout << "- Total rays: " << res.ranges.size() << std::endl;
     std::cout << "- Runtime: " << el << "s" << std::endl;
     
 
-    saveRangesAsXYZ(ranges, model, "points_cpu_ondn");
+    saveRangesAsXYZ(res.ranges, model, "points_cpu_ondn");
 
     return 0;
 }

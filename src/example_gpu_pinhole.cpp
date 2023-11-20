@@ -49,22 +49,23 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm;
     Tbm = Tbm_;
 
-
+    // defining return attributes
+    using IntAttr = Bundle<
+        Ranges<VRAM_CUDA> 
+    >;
 
     // simulate ranges and measure time
     StopWatch sw;
     double el;
     
-
     Memory<float, RAM> ranges;
-    Memory<float, VRAM_CUDA> ranges_;
     
     sw();
-    ranges_ = sim_pinhole.simulateRanges(Tbm);
+    IntAttr res = sim_pinhole.simulate<IntAttr>(Tbm);
     el = sw();
 
     // Download
-    ranges = ranges_;
+    ranges = res.ranges;
 
     std::cout << "Simulation Statistics: " << std::endl;
     std::cout << "- Sensors: " << N << std::endl;

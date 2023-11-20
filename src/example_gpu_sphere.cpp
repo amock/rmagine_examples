@@ -52,13 +52,16 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm;
     Tbm = Tbm_;
 
+    
+    // Define intersection attributes
+    using IntAttr = Bundle<
+        Ranges<VRAM_CUDA> 
+    >;
+
     // simulate ranges and measure time
-
-    using Attributes = Bundle<Ranges<VRAM_CUDA> >;
-
     StopWatch sw;
     sw();
-    Memory<float, VRAM_CUDA> ranges_ = sim_sphere.simulate<Attributes>(Tbm).ranges;
+    IntAttr res = sim_sphere.simulate<IntAttr>(Tbm);
     double el = sw();
 
     sw();
@@ -68,7 +71,7 @@ int main(int argc, char** argv)
 
     // Download
     Memory<float, RAM> ranges;
-    ranges = ranges_;
+    ranges = res.ranges;
     
     std::cout << "Simulation Statistics: " << std::endl;
     std::cout << "- Sensors: " << N << std::endl;

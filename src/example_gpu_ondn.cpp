@@ -53,12 +53,16 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
+    // defining return attributes
+    using IntAttr = Bundle<
+        Ranges<VRAM_CUDA> 
+    >;
     Memory<float, VRAM_CUDA> ranges_;
 
     // simulate ranges and measure time
     StopWatch sw;
     sw();
-    ranges_ = sim.simulateRanges(Tbm_);
+    ranges_ = sim.simulate<IntAttr>(Tbm_).ranges;
     double el = sw();
 
     // download to ram

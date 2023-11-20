@@ -52,17 +52,22 @@ int main(int argc, char** argv)
     StopWatch sw;
     double el;
 
+    // define intersection attributes
+    using IntAttr = Bundle<
+        Ranges<RAM> 
+    >;
+
     sw();
-    Memory<float, RAM> ranges = sim_pinhole.simulateRanges(Tbm);
+    IntAttr res = sim_pinhole.simulate<IntAttr>(Tbm);
     el = sw();
     
     std::cout << "Simulation Statistics: " << std::endl;
     std::cout << "- Sensors: " << N << std::endl;
     std::cout << "- Rays per sensor: " << model->size() << std::endl;
-    std::cout << "- Total rays: " << ranges.size() << std::endl;
+    std::cout << "- Total rays: " << res.ranges.size() << std::endl;
     std::cout << "- Runtime: " << el << "s" << std::endl;
 
-    saveRangesAsXYZ(ranges, *model, "points_cpu_pinhole");
+    saveRangesAsXYZ(res.ranges, *model, "points_cpu_pinhole");
 
     return 0;
 }

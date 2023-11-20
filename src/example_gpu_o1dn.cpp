@@ -54,15 +54,19 @@ int main(int argc, char** argv)
     Memory<Transform, VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    Memory<float, VRAM_CUDA> ranges_;
+    // defining return attributes
+    using IntAttr = Bundle<
+        Ranges<VRAM_CUDA> 
+    >;
+
     Memory<float, RAM> ranges;
 
     // simulate ranges and measure time
     StopWatch sw;
     sw();
-    ranges_ = sim.simulateRanges(Tbm_);
+    IntAttr res = sim.simulate<IntAttr>(Tbm_);
     double el = sw();
-    ranges = ranges_;
+    ranges = res.ranges;
 
 
     std::cout << "Simulation Statistics: " << std::endl;
