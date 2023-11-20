@@ -71,13 +71,11 @@ int main(int argc, char** argv)
 
     
     sim.setMap(map1);
-
     auto ranges_sphere = sim.simulateRanges(Tbm);
-
     saveRangesAsXYZ(ranges_sphere, *model, "points_cm_sphere");
 
-    sim.setMap(map2);
 
+    sim.setMap(map2);
     auto ranges_cube = sim.simulateRanges(Tbm);
     saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
 
