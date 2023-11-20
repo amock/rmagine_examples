@@ -74,8 +74,6 @@ target_link_libraries(example_gpu_ondn
     rmagine::optix
 )
 
-message(STATUS "${rmagine_LIBRARIES}")
-
 add_executable(example_gpu_change_map src/example_gpu_change_map.cpp)
 target_link_libraries(example_gpu_change_map
     rmagine::optix
