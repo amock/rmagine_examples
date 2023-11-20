@@ -3,69 +3,82 @@
 #include <rmagine/util/synthetic.h>
 
 #include <rmagine/simulation/SimulatorOptix.hpp>
+#include <rmagine/map/OptixMap.hpp>
+// collection of commonly used shapes
+#include <rmagine/map/optix/optix_shapes.h>
 
 #include "rmagine_examples/models.h"
 #include "rmagine_examples/helper.h"
 
-using namespace rmagine;
+namespace rm = rmagine;
+
+rm::OptixMapPtr make_map1()
+{
+    aiScene sphere = rm::genSphere(50, 50);
+    rm::OptixScenePtr scene1 = rm::make_optix_scene(&sphere);
+    scene1->commit();
+    rm::OptixMapPtr map1 = std::make_shared<rm::OptixMap>(scene1);
+
+    return map1;
+}
+
+rm::OptixMapPtr make_map2()
+{
+    rm::OptixMeshPtr cube = std::make_shared<rm::OptixCube>();
+    {
+        auto T = rm::Transform::Identity();
+        T.t.z = 2.0;
+        cube->setTransform(T);
+        cube->setScale(rm::Vector{10.0, 10.0, 10.0});
+        cube->apply(); // apply transform
+        cube->commit(); // commit element
+    }
+    
+    rm::OptixScenePtr scene2 = std::make_shared<rm::OptixScene>();
+    scene2->add(cube);
+    scene2->commit();
+    rm::OptixMapPtr map2 = std::make_shared<rm::OptixMap>(scene2);
+
+    return map2;
+}
+
 
 int main(int argc, char** argv)
 {
     std::cout << "Rmagine Examples: GPU change map" << std::endl;
 
-
-    Simulator<SphericalModel, Optix> sim;
-
-
-    OptixContextPtr optix_ctx = OptixContext::create(0);
+    auto map1 = make_map1();
+    auto map2 = make_map2();
 
 
-    auto model = example_spherical_model();
+    rm::Simulator<rm::SphericalModel, rm::Optix> sim;
+
+    auto model = rm::example_spherical_model();
     sim.setModel(model);
 
-    Transform Tsb;
+    rm::Transform Tsb;
     Tsb.setIdentity();
     sim.setTsb(Tsb);
 
-    Memory<Transform, RAM> Tbm(1000);
+    rm::Memory<rm::Transform, rm::RAM> Tbm(1000);
     for(int i=0; i<1000; i++)
     {
         Tbm[i].setIdentity();
     }
     
 
-    Memory<Transform, VRAM_CUDA> Tbm_;
+    rm::Memory<rm::Transform, rm::VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
+
+    rm::Memory<float, rm::RAM> ranges_sphere;
     
-    // sphere
-
-    size_t Niter = 100;
-
-    Memory<float, RAM> ranges_sphere;
-    for(size_t i=0; i<Niter; i++)
-    {
-        std::cout << i << "/" << Niter << std::endl;
-        auto sphere = genSphere(200, 200);
-        OptixMapPtr map1(new OptixMap(&sphere, optix_ctx) );
-
-        sim.setMap(map1);
-        
-        ranges_sphere = sim.simulateRanges(Tbm_);
-    }
-
+    sim.setMap(map1);
+    ranges_sphere = sim.simulateRanges(Tbm);
     saveRangesAsXYZ(ranges_sphere, *model, "points_cm_sphere");
 
-    // cube
-    // auto cube = genCube();
-    // OptixMapPtr map2(new OptixMap(&cube));
-    // sim->setMap(map2);
-    // Memory<float, RAM> ranges_cube;
-    // ranges_cube = sim->simulateRanges(Tbm_);
-    // saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
-
-    // Tbm_.free();
-
-
+    sim.setMap(map2);
+    auto ranges_cube = sim.simulateRanges(Tbm);
+    saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
 
     return 0;
 }
