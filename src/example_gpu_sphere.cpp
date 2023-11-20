@@ -53,9 +53,12 @@ int main(int argc, char** argv)
     Tbm = Tbm_;
 
     // simulate ranges and measure time
+
+    using Attributes = Bundle<Ranges<VRAM_CUDA> >;
+
     StopWatch sw;
     sw();
-    Memory<float, VRAM_CUDA> ranges_ = sim_sphere.simulateRanges(Tbm);
+    Memory<float, VRAM_CUDA> ranges_ = sim_sphere.simulate<Attributes>(Tbm).ranges;
     double el = sw();
 
     sw();
