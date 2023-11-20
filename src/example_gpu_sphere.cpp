@@ -4,7 +4,7 @@
 #include <rmagine/simulation/SimulatorOptix.hpp>
 #include <rmagine/util/StopWatch.hpp>
 
-#include <rmagine/noise/noise.cuh>
+#include <rmagine/noise/GaussianNoiseCuda.hpp>
 
 // predefined models
 #include "rmagine_examples/models.h"
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
     double el = sw();
 
     sw();
-    GaussianNoise(0.0, 0.01).apply(ranges_);
+    GaussianNoiseCuda(0.0, 0.01).apply(ranges_);
     cudaDeviceSynchronize();
     double el2 = sw();
 
