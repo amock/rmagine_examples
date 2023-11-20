@@ -70,8 +70,8 @@ int main(int argc, char** argv)
     rm::Memory<rm::Transform, rm::VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
 
-    using IntAttr = Bundle<
-        Ranges<VRAM_CUDA> 
+    using IntAttr = rm::Bundle<
+        rm::Ranges<rm::VRAM_CUDA> 
     >;
 
     rm::Memory<float, rm::RAM> ranges;
