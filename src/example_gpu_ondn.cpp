@@ -25,9 +25,7 @@ int main(int argc, char** argv)
 
     // Load Map
     OptixMapPtr map = import_optix_map(argv[1]);
-    std::cout << "Loaded file '" << argv[1] << "'" << std::endl; 
-
-    // std::cout << "- Meshes: " << map->meshes.size() << std::endl;
+    std::cout << "Loaded file '" << argv[1] << "'" << std::endl;
 
     // Create Simulator in map
     Simulator<OnDnModel, Optix> sim(map);
