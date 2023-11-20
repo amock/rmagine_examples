@@ -46,6 +46,8 @@ rm::OptixMapPtr make_map2()
 int main(int argc, char** argv)
 {
     std::cout << "Rmagine Examples: GPU change map" << std::endl;
+    
+    std::cout << "-- TODO: THIS APP CAUSES DOUBLE FREE. FIX THIS" << std::endl;
 
     auto map1 = make_map1();
     auto map2 = make_map2();
