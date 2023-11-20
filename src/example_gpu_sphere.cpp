@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     double el = sw();
 
     sw();
-    GaussianNoiseCuda(0.0, 0.01).apply(ranges_);
+    GaussianNoiseCuda(0.0, 0.01).apply(res.ranges);
     cudaDeviceSynchronize();
     double el2 = sw();
 
