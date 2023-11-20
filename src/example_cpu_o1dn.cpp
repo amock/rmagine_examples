@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     }
 
     // Load Map
-    EmbreeMapPtr map = importEmbreeMap(argv[1]);
+    EmbreeMapPtr map = import_embree_map(argv[1]);
     std::cout << "Loaded file '" << argv[1] << "'" << std::endl; 
 
     std::cout << "- Meshes: " << map->meshes.size() << std::endl;

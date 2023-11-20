@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     }
 
     // Load Map
-    OptixMapPtr map = importOptixMap(argv[1]);
+    OptixMapPtr map = import_optix_map(argv[1]);
     std::cout << "Loaded file '" << argv[1] << "'" << std::endl; 
 
     // std::cout << "- Meshes: " << map->meshes.size() << std::endl;
