@@ -67,7 +67,6 @@ int main(int argc, char** argv)
     {
         Tbm[i].setIdentity();
     }
-    
 
     rm::Memory<rm::Transform, rm::VRAM_CUDA> Tbm_;
     Tbm_ = Tbm;
@@ -77,7 +76,6 @@ int main(int argc, char** argv)
     >;
 
     rm::Memory<float, rm::RAM> ranges;
-
     
     sim.setMap(map1);
     ranges = sim.simulate<IntAttr>(Tbm).ranges;
