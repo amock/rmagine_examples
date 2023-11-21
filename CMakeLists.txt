@@ -19,6 +19,10 @@ OPTIONAL_COMPONENTS # optional components. existence can be checked later
     optix
 )
 
+message(STATUS "OLD STYLE CMAKE VARS:")
+message(STATUS "- rmagine_INCLUDE_DIR: ${rmagine_INCLUDE_DIR}")
+message(STATUS "- rmagine_LIBRARIES: ${rmagine_LIBRARIES}")
+
 include_directories(include)
 
 # Check if rmagine was compiled with embree support
@@ -31,22 +35,22 @@ target_link_libraries(example_cpu_sphere
 
 add_executable(example_cpu_pinhole src/example_cpu_pinhole.cpp)
 target_link_libraries(example_cpu_pinhole
-    ${rmagine_LIBRARIES}
+    rmagine::embree
 )
 
 add_executable(example_cpu_o1dn src/example_cpu_o1dn.cpp)
 target_link_libraries(example_cpu_o1dn
-    ${rmagine_LIBRARIES}
+    rmagine::embree
 )
 
 add_executable(example_cpu_ondn src/example_cpu_ondn.cpp)
 target_link_libraries(example_cpu_ondn
-    ${rmagine_LIBRARIES}
+    rmagine::embree
 )
 
 add_executable(example_cpu_change_map src/example_cpu_change_map.cpp)
 target_link_libraries(example_cpu_change_map
-    ${rmagine_LIBRARIES}
+    rmagine::embree
 )
 
 endif(TARGET rmagine::embree)
