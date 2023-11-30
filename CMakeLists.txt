@@ -53,6 +53,11 @@ target_link_libraries(example_cpu_change_map
     rmagine::embree
 )
 
+add_executable(example_cpu_change_sim src/example_cpu_change_sim.cpp)
+target_link_libraries(example_cpu_change_sim
+    rmagine::embree
+)
+
 endif(TARGET rmagine::embree)
 
 # check if rmagine was compiled with optix support
