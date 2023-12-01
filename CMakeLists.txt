@@ -25,6 +25,15 @@ message(STATUS "- rmagine_LIBRARIES: ${rmagine_LIBRARIES}")
 
 include_directories(include)
 
+if(TARGET rmagine::core)
+
+add_executable(example_math src/example_math.cpp)
+target_link_libraries(example_math
+    rmagine::core
+)
+
+endif(TARGET rmagine::core)
+
 # Check if rmagine was compiled with embree support
 if(TARGET rmagine::embree)
 
