@@ -19,6 +19,39 @@ OPTIONAL_COMPONENTS # optional components. existence can be checked later
     optix
 )
 
+find_package(OpenMP REQUIRED)
+if(OPENMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif(OPENMP_FOUND)
+
+message(STATUS "Rmagine Found:")
+message(STATUS "- version: ${rmagine_VERSION}")
+
+
+# message(STATUS "- components: ${}")
+
+# if(TARGET )
+
+
+get_target_property(RMAGINE_CORE_INCLUDES rmagine::core INTERFACE_INCLUDE_DIRECTORIES)
+
+# TODO: prepare example for component iteration
+# foreach(component ${rmagine_FIND_COMPONENTS})
+
+# endforeach()
+
+message(STATUS "- includes: ${RMAGINE_CORE_INCLUDES}")
+
+get_target_property(RMAGINE_CORE_INCLUDES rmagine::core INTERFACE_INCLUDE_DIRECTORIES)
+
+
+message(STATUS "EIGEN_INCLUDES: ${EIGEN_INCLUDES}")
+message(STATUS "RMAGINE_CORE_INCLUDES: ${RMAGINE_CORE_INCLUDES}")
+
+
+
 message(STATUS "OLD STYLE CMAKE VARS:")
 message(STATUS "- rmagine_INCLUDE_DIR: ${rmagine_INCLUDE_DIR}")
 message(STATUS "- rmagine_LIBRARIES: ${rmagine_LIBRARIES}")
