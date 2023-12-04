@@ -69,14 +69,17 @@ int main(int argc, char** argv)
     rm::Memory<rm::Transform, rm::RAM> Tbm(1);
     Tbm[0].setIdentity();
 
+    using AttrT = rm::Bundle<
+        rm::Ranges<rm::RAM>
+    >;
     
     sim.setMap(map1);
-    auto ranges_sphere = sim.simulateRanges(Tbm);
+    auto ranges_sphere = sim.simulate<AttrT>(Tbm).ranges;
     saveRangesAsXYZ(ranges_sphere, *model, "points_cm_sphere");
 
 
     sim.setMap(map2);
-    auto ranges_cube = sim.simulateRanges(Tbm);
+    auto ranges_cube = sim.simulate<AttrT>(Tbm).ranges;
     saveRangesAsXYZ(ranges_cube, *model, "points_cm_cube");
 
     return 0;
