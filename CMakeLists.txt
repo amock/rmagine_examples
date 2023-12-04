@@ -28,27 +28,15 @@ endif(OPENMP_FOUND)
 
 message(STATUS "Rmagine Found:")
 message(STATUS "- version: ${rmagine_VERSION}")
-
-
-# message(STATUS "- components: ${}")
-
-# if(TARGET )
-
-
 get_target_property(RMAGINE_CORE_INCLUDES rmagine::core INTERFACE_INCLUDE_DIRECTORIES)
-
-# TODO: prepare example for component iteration
-# foreach(component ${rmagine_FIND_COMPONENTS})
-
-# endforeach()
-
 message(STATUS "- includes: ${RMAGINE_CORE_INCLUDES}")
 
-get_target_property(RMAGINE_CORE_INCLUDES rmagine::core INTERFACE_INCLUDE_DIRECTORIES)
 
+if(TARGET rmagine::optix)
+get_target_property(RMAGINE_OPTIX_INCLUDES rmagine::optix INTERFACE_INCLUDE_DIRECTORIES)
+message(STATUS "- optix includes: ${RMAGINE_OPTIX_INCLUDES}")
+endif(TARGET rmagine::optix)
 
-message(STATUS "EIGEN_INCLUDES: ${EIGEN_INCLUDES}")
-message(STATUS "RMAGINE_CORE_INCLUDES: ${RMAGINE_CORE_INCLUDES}")
 
 
 
