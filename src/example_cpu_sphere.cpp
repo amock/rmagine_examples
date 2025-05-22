@@ -1,84 +1,97 @@
 #include <iostream>
 #include <fstream>
-#include <rmagine/simulation/SphereSimulatorEmbree.hpp>
-#include <rmagine/util/StopWatch.hpp>
 
-#include <rmagine/simulation/SimulatorEmbree.hpp>
+// Map & Simulation
+#include <rmagine/map/EmbreeMap.hpp>
+#include <rmagine/map/embree/embree_shapes.h>
+#include <rmagine/simulation/SphereSimulatorEmbree.hpp>
 
 // Generic Interface
 #include <rmagine/simulation/SimulationResults.hpp>
 #include <rmagine/types/Bundle.hpp>
 
-#include <rmagine/noise/GaussianNoise.hpp>
+// Utilities
+#include <rmagine/util/StopWatch.hpp>
 
-// models
+// Models
 #include "rmagine_examples/models.h"
 #include "rmagine_examples/helper.h"
 
-using namespace rmagine;
 
-int main(int argc, char** argv)
+namespace rm = rmagine;
+
+/**
+ * This functions 
+ */
+rm::EmbreeMapPtr load_map_or_dummy(int argc, const char** argv)
 {
-    std::cout << "Example CPU: Simulate spherical model." << std::endl;
+  rm::EmbreeMapPtr map;
+  if(argc < 2)
+  {
+    std::cout << "Usage: " << argv[0] << " [meshfile] " << std::endl;
+    std::cout << "No meshfile provided: Loading simple cube instead." << std::endl;
 
-    if(argc < 2)
-    {
-        std::cout << "Usage: " << argv[0] << " [meshfile] " << std::endl;
-        return 0;
-    }
+    rm::EmbreeScenePtr scene = std::make_shared<rm::EmbreeScene>();    
+    rm::EmbreeGeometryPtr mesh = std::make_shared<rm::EmbreeCube>();
+    mesh->commit();
+    scene->add(mesh);
+    scene->commit();
+    map = std::make_shared<rm::EmbreeMap>(scene);
 
-    // Load Map
-    EmbreeMapPtr map = import_embree_map(argv[1]);
+  } else {
+    // Load map from drive
+    map = rm::import_embree_map(argv[1]);
     std::cout << "Loaded file '" << argv[1] << "'" << std::endl;
+  }
+  return map;
+}
 
-    // Create Simulator in map
+int main(int argc, const char** argv)
+{
+  std::cout << "Example CPU: Simulate spherical model." << std::endl;
 
-    Simulator<SphericalModel, Embree> sim_sphere(map);
-    // SphereSimulatorEmbree sim_sphere(map);
+  rm::EmbreeMapPtr map = load_map_or_dummy(argc, argv);
 
-    // Define sensor model
-    Memory<SphericalModel, RAM> model = example_spherical_model();
-    sim_sphere.setModel(model);
+  // Create simulator in a map
+  rm::SphereSimulatorEmbree sim_lidar(map);
 
-    // Define Sensor to base transform (offset between simulated pose and scanner)
-    Memory<Transform, RAM> Tsb(1);
-    Tsb->setIdentity();
-    sim_sphere.setTsb(Tsb);
+  // Define sensor model
+  rm::SphericalModel model;
+  {
+    model.theta.min = -M_PI;
+    model.theta.inc = 0.4 * M_PI / 180.0;
+    model.theta.size = 900;
+    model.phi.min = -15.0 * M_PI / 180.0;
+    model.phi.inc = 2.0 * M_PI / 180.0;
+    model.phi.size = 16;
+    model.range.min = 0.0;
+    model.range.max = 130.0;
+  }
+  sim_lidar.setModel(model);
 
-    size_t N = 10;
+  // Define sensor to base transform, ie, offset between simulated pose and scanner
+  rm::Transform Tsb = rm::Transform::Identity();
+  sim_lidar.setTsb(Tsb);
 
-    // Define poses to simulate from
-    Memory<Transform, RAM> Tbm(N);
-    for(size_t i=0; i<N; i++)
-    {
-        // for simplicity take the identity
-        Tbm[i] = Tsb[0];
-    }
+  // Define a poses to simulate from, ie, transform from base to map
+  rm::Transform Tbm = rm::Transform::Identity();
 
-    // define intersection attributes
-    using IntAttr = Bundle<
-        Ranges<RAM> 
-    >;
+  // define intersection attributes
+  using IntAttr = rm::Bundle<
+    rm::Ranges<rm::RAM> 
+  >;
 
-    // simulate ranges and measure time
-    StopWatch sw;
-    sw();
-    IntAttr res = sim_sphere.simulate<IntAttr>(Tbm);
-    double el = sw();
+  // simulate ranges and measure time
+  rm::StopWatch sw;
+  sw();
+  IntAttr res = sim_lidar.simulate<IntAttr>(Tbm);
+  double el = sw();
 
-    std::cout << "Simulation Statistics: " << std::endl;
-    std::cout << "- Sensors: " << N << std::endl;
-    std::cout << "- Rays per sensor: " << model->size() << std::endl;
-    std::cout << "- Total rays: " << res.ranges.size() << std::endl;
-    std::cout << "- Runtime: " << el << "s" << std::endl;
+  std::cout << "Simulation Statistics: " << std::endl;
+  std::cout << "- Rays: " << res.ranges.size() << std::endl;
+  std::cout << "- Runtime: " << el << "s" << std::endl;
 
-    // apply noise
-    sw();
-    GaussianNoise(0.0, 0.01).apply(res.ranges);
-    el = sw();
-    std::cout << "- Runtime Noise: " << el << "s" << std::endl;
+  saveRangesAsXYZ(res.ranges, model, "points_cpu_sphere");
 
-    saveRangesAsXYZ(res.ranges, *model, "points_cpu_sphere");
-
-    return 0;
+  return 0;
 }

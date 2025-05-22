@@ -9,22 +9,22 @@ namespace rmagine
 /**
  * @brief Example model: Velodyne laserscanner
  * 
- * @return Memory<SphericalModel, RAM> 
+ * @return SphericalModel 
  */
-Memory<SphericalModel, RAM> example_spherical_model()
+SphericalModel example_spherical_model()
 {
-    Memory<LiDARModel, RAM> model(1);
-    model->theta.min = -M_PI;
-    model->theta.inc = 0.4 * M_PI / 180.0;
-    model->theta.size = 900;
+  SphericalModel model;
+  model.theta.min = -M_PI;
+  model.theta.inc = 0.4 * M_PI / 180.0;
+  model.theta.size = 900;
 
-    model->phi.min = -15.0 * M_PI / 180.0;
-    model->phi.inc = 2.0 * M_PI / 180.0;
-    model->phi.size = 16;
-    
-    model->range.min = 0.0;
-    model->range.max = 130.0;
-    return model;
+  model.phi.min = -15.0 * M_PI / 180.0;
+  model.phi.inc = 2.0 * M_PI / 180.0;
+  model.phi.size = 16;
+  
+  model.range.min = 0.0;
+  model.range.max = 130.0;
+  return model;
 }
 
 /**
@@ -61,28 +61,28 @@ O1DnModel example_o1dn_model()
 
     O1DnModel model;
         
-    size_t W = velo_model->getWidth();
-    size_t H = velo_model->getHeight() * 2;
+    size_t W = velo_model.getWidth();
+    size_t H = velo_model.getHeight() * 2;
 
     model.width = W;
     model.height = H;
-    model.range = velo_model->range;
+    model.range = velo_model.range;
 
     model.orig.x = 0.0;
     model.orig.y = 0.0;
     model.orig.z = 0.5;
     model.dirs.resize(W * H);
 
-    for(size_t vid=0; vid<velo_model->getHeight(); vid++)
+    for(size_t vid=0; vid<velo_model.getHeight(); vid++)
     {
-        for(size_t hid=0; hid<velo_model->getWidth(); hid++)
+        for(size_t hid=0; hid<velo_model.getWidth(); hid++)
         {
-            const Vector ray = velo_model->getDirection(vid, hid);
+            const Vector ray = velo_model.getDirection(vid, hid);
             unsigned int loc_id_1 = model.getBufferId(vid, hid);
             model.dirs[loc_id_1] = ray;
 
             const Vector ray_flipped = {ray.x, ray.z, ray.y};
-            unsigned int loc_id_2 = model.getBufferId(vid + velo_model->getHeight(), hid);
+            unsigned int loc_id_2 = model.getBufferId(vid + velo_model.getHeight(), hid);
             model.dirs[loc_id_2] = ray_flipped;
         }
     }
