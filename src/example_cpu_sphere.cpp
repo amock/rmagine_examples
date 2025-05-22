@@ -5,6 +5,7 @@
 #include <rmagine/map/EmbreeMap.hpp>
 #include <rmagine/map/embree/embree_shapes.h>
 #include <rmagine/simulation/SphereSimulatorEmbree.hpp>
+#include <rmagine/noise/GaussianNoise.hpp>
 
 // Generic Interface
 #include <rmagine/simulation/SimulationResults.hpp>
@@ -90,6 +91,12 @@ int main(int argc, const char** argv)
   std::cout << "Simulation Statistics: " << std::endl;
   std::cout << "- Rays: " << res.ranges.size() << std::endl;
   std::cout << "- Runtime: " << el << "s" << std::endl;
+
+  // apply noise
+  sw();
+  rm::GaussianNoise(0.0, 0.01).apply(res.ranges);
+  el = sw();
+  std::cout << "- Runtime Noise: " << el << "s" << std::endl;
 
   saveRangesAsXYZ(res.ranges, model, "points_cpu_sphere");
 
